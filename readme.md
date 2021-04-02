@@ -2,6 +2,23 @@
 
 Repository of the NodeJS Course to learn to build robust backends
 
+## Installation
+
+Remember you need to execute the next command to rebuild the node modules
+
+```bash
+npm install
+```
+
+## Create Release Tag
+
+To get the code clean at the moment when the tag was created to be easy downloaded
+
+```bash
+git tag -a v1.0.0 -m "Basic Boilerplate WebRestServer"
+git push --tags
+```
+
 ## Directory Tree
 
 * **docs** (Documentation to the server Directory)
