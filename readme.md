@@ -25,12 +25,17 @@ git push --tags
 * **public** (Public Directory)
 * **src** (Source Directory of the backend App)
    * **controllers** (Controllers Folder)
+   * **database** (Database Config Folder)
+   * **helpers** (Helpers Functions Folder)
+   * **middlewares** (Custom Middlewares Folder)
    * **models** (Models Folder)
    * **routes** (Routes Folder)
    * **app.js** (Entry point of the app)
  * **.env** (file with environment variables needed for the app to work)
  * **.gitignore** (Files, Folders to be ignored in the git repository)
 
+## Notes
+- DB: ***smCafeDB***
 
 ## Autor
 > Stalin Maza

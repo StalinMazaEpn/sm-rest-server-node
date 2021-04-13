@@ -1,20 +1,36 @@
 const { request, response } = require("express");
+const User = require("../models/user");
+const bcryptjs = require("bcryptjs");
 
-const index =  (req = request, res = response) => {
+const index = (req = request, res = response) => {
     res.json({
         msg: 'get API Controller Index',
         query_params: req.query,
     });
 }
 
-const store = (req, res = response) => {
-    res.json({
-        msg: 'post API Controller create',
-        body: req.body
-    });
-}
+const store = async (req, res = response) => {
+    try {
 
-//Store
+        const { firstname, email, password, role } = req.body;
+        const user = new User({ firstname, email, password, role });
+
+        //Encript the password
+        const salt = bcryptjs.genSaltSync();
+        user.password = bcryptjs.hashSync(password, salt);
+        //Save to DB
+        await user.save();
+        res.json({
+            msg: 'post API Controller create',
+            user
+        });
+    } catch (err) {
+        res.status(400).json({
+            msg: 'post API Controller create fails',
+            err
+        });
+    }
+}
 
 const show = (req, res = response) => {
     res.json({
@@ -22,12 +38,33 @@ const show = (req, res = response) => {
     });
 }
 
-const update = (req, res = response) => {
+const update = async (req, res = response) => {
+    try{
+        
+    const { id } = req.params;
+
+    const { password, google, email, ...data } = req.body;
+
+
+    //Encript the password
+    if (password) {
+        const salt = bcryptjs.genSaltSync();
+        data.password = bcryptjs.hashSync(password, salt);
+    }
+
+    const user = await User.findByIdAndUpdate(id, data);
+
     res.json({
         msg: 'put API Controller update',
         segment_param: req.params.id,
         body: req.body
     });
+    } catch (err) {
+        res.status(400).json({
+            msg: 'PUT API Controller update fails',
+            err
+        });
+    }
 }
 
 const destroy = (req, res = response) => {
