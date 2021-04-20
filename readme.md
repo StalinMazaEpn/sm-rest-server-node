@@ -40,6 +40,19 @@ git push --tags
 ## Autor
 > Stalin Maza
 
+## Models
+
+**Role**
+- role: string
+
+**User**
+- state: string
+- google: boolean
+- firstname: string
+- email: string
+- password: string
+- role: string
+
 ## About
 
 NodeJS: [De cero a experto](https://www.udemy.com/course/node-de-cero-a-experto) (2021) - Fernando Herrera
