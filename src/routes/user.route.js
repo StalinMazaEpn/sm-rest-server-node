@@ -29,7 +29,11 @@ router.put("/:id", [
     fieldsValidator
 ], update);
 
-router.delete("/:id", destroy);
+router.delete("/:id", [
+    check("id", "ID not valid").isMongoId(),
+    check("id").custom(userExistById),
+    fieldsValidator
+], destroy);
 
 
 // router.get("/profile", (req, res) => {

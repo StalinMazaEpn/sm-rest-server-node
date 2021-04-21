@@ -4,13 +4,16 @@ const bcryptjs = require("bcryptjs");
 
 const index = async (req = request, res = response) => {
     const { limit = "5", from = "0" } = req.query;
-    const users = await User.find().skip(Number(from)).limit(Number(limit));
-    const total = await User.countDocuments();
+    const query = { state: true };
+
+    const [total, users] = await Promise.all([
+        User.countDocuments(query),
+        User.find(query).skip(Number(from)).limit(Number(limit))
+    ]);
+
     res.json({
         msg: 'get API Controller Index',
-        query_params: req.query,
-        users,
-        total
+        total, users
     });
 }
 
@@ -73,14 +76,20 @@ const update = async (req, res = response) => {
     }
 }
 
-const destroy = (req, res = response) => {
-    res.json({
-        msg: 'delete API Controller destroy'
+const destroy = async (req, res = response) => {
+
+    const { id } = req.params;
+
+    //Remove resource from DB - One Way
+    //const user = await User.findByIdAndDelete(id);
+
+    //Change status of resource to false- Second Way
+    await User.findByIdAndUpdate(id, {state: false});
+
+    res.status(204).json({
+        msg: `resource ${id} removed successfully`
     });
 }
-
-
-store
 
 /*
 GET	/sharks	index	sharks.index
